@@ -1,9 +1,9 @@
+from django.http import Http404
 from django.shortcuts import render
 
 
-posts = [
-    {
-        'id': 0,
+posts = {
+    0: {
         'location': 'Остров отчаянья',
         'date': '30 сентября 1659 года',
         'category': 'travel',
@@ -12,10 +12,9 @@ posts = [
                 Весь экипаж, кроме меня, утонул; я же,
                 несчастный Робинзон Крузо, был выброшен
                 полумёртвым на берег этого проклятого острова,
-                который назвал островом Отчаяния.''',
+                который назвал островом Отчаяния.'''
     },
-    {
-        'id': 1,
+    1: {
         'location': 'Остров отчаянья',
         'date': '1 октября 1659 года',
         'category': 'not-my-day',
@@ -28,10 +27,9 @@ posts = [
                 Мне всё думалось, что, останься мы на корабле, мы
                 непременно спаслись бы. Теперь из его обломков мы могли бы
                 построить баркас, на котором и выбрались бы из этого
-                гиблого места.''',
+                гиблого места.'''
     },
-    {
-        'id': 2,
+    2: {
         'location': 'Остров отчаянья',
         'date': '25 октября 1659 года',
         'category': 'not-my-day',
@@ -40,22 +38,23 @@ posts = [
                 в щепки; на том месте, где он стоял, торчат какие-то
                 жалкие обломки,  да и те видны только во время отлива.
                 Весь этот день я хлопотал  около вещей: укрывал и
-                укутывал их, чтобы не испортились от дождя.''',
-    },
-]
+                укутывал их, чтобы не испортились от дождя.'''
+    }
+}
 
 
 def index(request):
     template_name = 'blog/index.html'
-    context = {
-        'posts': posts
-    }
+    context = {'posts': posts}
     return render(request, template_name, context)
 
 
 def post_detail(request, id):
     template_name = 'blog/detail.html'
-    context = {'post': posts[id]}
+    try:
+        context = {'post': posts[id]}
+    except KeyError:
+        raise Http404('Page does not exist')
     return render(request, template_name, context)
 
 
