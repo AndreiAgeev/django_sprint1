@@ -5,8 +5,8 @@
 
 {% block content %}
   <h1>Лента записей</h1>
-  {% for post in posts reversed %}
+  {% for post_id, post in posts.items reversed %}
     <hr>
-  {% include "includes/article.html" %}
-{% endfor %}
+    {% include "includes/article.html" %}
+  {% endfor %}
 {% endblock content %}
